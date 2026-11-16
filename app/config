@@ -1,0 +1,13 @@
+import os
+
+APP_ENV = os.getenv("APP_ENV", "development").lower()
+
+# The fallback is for local development only. Production deployments must inject
+# SECRET_KEY from the configured secrets manager.
+SECRET_KEY = os.getenv("SECRET_KEY", "local-development-only-change-me")
+if APP_ENV == "production" and SECRET_KEY == "local-development-only-change-me":
+    raise RuntimeError("SECRET_KEY must be supplied by the production secrets manager")
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "30"))
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./vulntracker.db")
+NOTIFY_SERVICE_URL = os.getenv("NOTIFY_SERVICE_URL", "http://localhost:3001")
